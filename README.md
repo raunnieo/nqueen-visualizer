@@ -12,6 +12,6 @@ This project is a graphical implementation of the N-Queens problem using Python'
 ## Working
 + Initialization: A 4x4 chessboard is displayed by default when the application starts.
 + Adjust Board Size: Use the slider to select the desired board size (up to 12x12).
-+ Solve the Problem: Click the "Solve" button to find a solution automatically. If a solution exists, the queens will be placed on the board; otherwise, a message will be displayed.
++ Solve the Problem: Click the "Solve" button to find a solution automatically.
 + Manual Placement: You can also manually place or remove queens by clicking on the cells of the chessboard.
 + Reset the Board: The "Reset" button clears the board for a fresh start.
