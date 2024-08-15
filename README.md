@@ -4,7 +4,7 @@ N-Queens Solver
 This project is a graphical implementation of the N-Queens problem using Python's tkinter library. The N-Queens problem is a classic algorithmic challenge where the goal is to place N chess queens on an N×N chessboard so that no two queens threaten each other.
 
 ### 12x12 Queen Problem Solution
-<img src="https://github.com/raunnieo/NQueen-Visualizer/blob/main/playground.png" width="500">   <img src="https://github.com/raunnieo/NQueen-Visualizer/blob/main/solution.png" width="495">
+<img src="https://github.com/raunnieo/NQueen-Visualizer/blob/main/playground.png" width="250">   <img src="https://github.com/raunnieo/NQueen-Visualizer/blob/main/solution.png" width="245">
 
 
 ## Features
