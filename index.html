@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Queens Solver</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>N-Queens Solver</h1>
+    <label for="boardSize">Board Size:</label>
+    <input type="range" id="boardSize" name="boardSize" min="4" max="12" value="4" oninput="updateBoardSize(this.value)">
+    <span id="boardSizeValue">4</span>
+
+    <div id="board"></div>
+
+    <button onclick="solve()">Solve</button>
+    <button onclick="resetBoard()">Reset</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
