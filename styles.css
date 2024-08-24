@@ -29,9 +29,9 @@ body {
 }
 
 .cell.white {
-    background-color: white;
+    background-color: #DEE4EA;
 }
 
 .cell.gray {
-    background-color: gray;
+    background-color: #101214;
 }

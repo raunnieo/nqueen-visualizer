@@ -11,7 +11,7 @@ function createBoard(size) {
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             const cell = document.createElement('div');
-            cell.className = `cell ${(i + j) % 2 === 0 ? 'white' : 'gray'}`;
+            cell.className = `cell ${(i + j) % 2 === 0 ? 'gray' : 'black'}`;
             cell.addEventListener('click', () => {
                 toggleQueen(i, j);
                 markSafe();
@@ -38,8 +38,8 @@ function drawBoard() {
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < N; j++) {
             const cell = boardElement.children[i * N + j];
-            cell.innerHTML = board[i][j] === 1 ? '<img src="assets/images/queen.png" height="30px" />' : '';
-            cell.style.backgroundColor = (i + j) % 2 === 0 ? 'white' : 'gray';
+            cell.innerHTML = board[i][j] === 1 ? (i + j) % 2 === 0 ? '<img src="assets/images/queenBlack.png" height="30px" />' : '<img src="assets/images/queenWhite.png" height="30px" />' : '';
+            cell.style.backgroundColor = (i + j) % 2 === 0 ? '#DEE4EA' : '#101214';
         }
     }
 }
@@ -73,10 +73,10 @@ function markSafe() {
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < N; j++) {
             const cell = boardElement.children[i * N + j];
-            if (isSafe(i, j)) {
-                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'lightgreen' : 'darkgreen';
+            if (isSafe(i, j) || board[i][j]===1) {
+                cell.style.backgroundColor = (i + j) % 2 === 0 ? '#DEE4EA' : '#101214';
             } else {
-                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'white' : 'gray';
+                cell.style.backgroundColor = (i + j) % 2 === 0 ? '#E9967A' : '#A52A2A';
             }
         }
     }
@@ -97,6 +97,7 @@ function solveNQUtil(col) {
 }
 
 function solve() {
+    createBoard(N)
     if (solveNQUtil(0)) {
         drawBoard();
     } else {
