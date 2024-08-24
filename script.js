@@ -1,4 +1,4 @@
-let N = 4;
+let N = 8;
 let board = [];
 
 function createBoard(size) {
@@ -12,7 +12,10 @@ function createBoard(size) {
         for (let j = 0; j < size; j++) {
             const cell = document.createElement('div');
             cell.className = `cell ${(i + j) % 2 === 0 ? 'white' : 'gray'}`;
-            cell.addEventListener('click', () => toggleQueen(i, j));
+            cell.addEventListener('click', () => {
+                toggleQueen(i, j);
+                markSafe();
+            });
             boardElement.appendChild(cell);
         }
     }
@@ -25,8 +28,9 @@ function updateBoardSize(value) {
 }
 
 function toggleQueen(row, col) {
-    board[row][col] = 1 - board[row][col];
+    board[row][col] = 1 - board[row][col];  // Toggle the queen on or off
     drawBoard();
+    markSafe();
 }
 
 function drawBoard() {
@@ -34,25 +38,48 @@ function drawBoard() {
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < N; j++) {
             const cell = boardElement.children[i * N + j];
-            cell.innerText = board[i][j] === 1 ? 'Q' : '';
+            cell.innerHTML = board[i][j] === 1 ? '<img src="assets/images/queen.png" height="30px" />' : '';
+            cell.style.backgroundColor = (i + j) % 2 === 0 ? 'white' : 'gray';
         }
     }
 }
 
 function isSafe(row, col) {
-    for (let i = 0; i < col; i++) {
-        if (board[row][i]) return false;
+    for (let i = 0; i < N; i++) {
+        if (board[row][i] === 1 || board[i][col] === 1) return false;
     }
 
     for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-        if (board[i][j]) return false;
+        if (board[i][j] === 1) return false;
     }
 
-    for (let i = row, j = col; j >= 0 && i < N; i++, j--) {
-        if (board[i][j]) return false;
+    for (let i = row, j = col; i < N && j >= 0; i++, j--) {
+        if (board[i][j] === 1) return false;
+    }
+
+    for (let i = row, j = col; i >= 0 && j < N; i--, j++) {
+        if (board[i][j] === 1) return false;
+    }
+
+    for (let i = row, j = col; i < N && j < N; i++, j++) {
+        if (board[i][j] === 1) return false;
     }
 
     return true;
+}
+
+function markSafe() {
+    const boardElement = document.getElementById('board');
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
+            const cell = boardElement.children[i * N + j];
+            if (isSafe(i, j)) {
+                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'lightgreen' : 'darkgreen';
+            } else {
+                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'white' : 'gray';
+            }
+        }
+    }
 }
 
 function solveNQUtil(col) {
