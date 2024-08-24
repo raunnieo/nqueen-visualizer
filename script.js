@@ -73,10 +73,10 @@ function markSafe() {
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < N; j++) {
             const cell = boardElement.children[i * N + j];
-            if (isSafe(i, j)) {
-                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'lightgreen' : 'darkgreen';
+            if (isSafe(i, j) || board[i][j]===1) {
+                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'white' : '#585858';
             } else {
-                cell.style.backgroundColor = (i + j) % 2 === 0 ? 'white' : 'gray';
+                cell.style.backgroundColor = (i + j) % 2 === 0 ? '#E9967A' : '#A52A2A';
             }
         }
     }
@@ -97,6 +97,7 @@ function solveNQUtil(col) {
 }
 
 function solve() {
+    createBoard(N)
     if (solveNQUtil(0)) {
         drawBoard();
     } else {
