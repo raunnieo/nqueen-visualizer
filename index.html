@@ -7,19 +7,44 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
 <div class="container">
     <h1>N-Queens Solver</h1>
-    <label for="boardSize">Board Size:</label>
-    <input type="range" id="boardSize" name="boardSize" min="4" max="12" value="8" oninput="updateBoardSize(this.value)">
-    <span id="boardSizeValue">8</span>
-
-    <div id="board"></div>
-
-    <button onclick="solve()">Solve</button>
-    <button onclick="resetBoard()">Reset</button>
+    <div class="controls">
+        <label for="boardSize">Board Size:</label>
+        <input type="range" id="boardSize" name="boardSize" min="4" max="12" value="8" oninput="updateBoardSize(this.value)">
+        <span id="boardSizeValue">8</span>
+    </div>
+    <div class="game-container">
+        <div class="info-panel">
+            <h2>N-Queens Problem</h2>
+            <p>The N-Queens problem is a classic chess puzzle where N queens must be placed on an NxN chessboard so that no two queens threaten each other.</p>
+            <h3>Backtracking</h3>
+            <p>This solver uses a backtracking algorithm. Backtracking is an algorithmic technique that considers searching every possible combination in order to solve a computational problem.</p>
+        </div>
+        <div class="board-container">
+            <div id="board"></div><br>
+            <div class="board-controls">
+                <div class="queens-left">Queens Left: <span id="queensLeft">8</span></div>
+                <div class="buttons">
+                    <button id="themeToggle">Theme</button>
+                    <button onclick="solve()">Solve</button>
+                    <button onclick="resetBoard()">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="instructions-panel">
+            <h2>Instructions</h2>
+            
+                1. Use the slider to set the board size.<br>
+                2. Click on a cell to place or remove a queen.<br>
+                3. Unsafe queens will be highlighted.<br>
+                4. Click "Solve" to find a solution automatically.<br>
+                5. Click "Reset" to clear the board.<br>
+                6. Use "Theme" to switch between light and dark modes.
+            
+        </div>
+    </div>
 </div>
-
 <script src="script.js"></script>
 </body>
 </html>

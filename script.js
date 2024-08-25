@@ -1,5 +1,7 @@
 let N = 8;
 let board = [];
+let isDarkTheme = true;
+let queensLeft = N;
 
 function createBoard(size) {
     const boardElement = document.getElementById('board');
@@ -7,15 +9,14 @@ function createBoard(size) {
     boardElement.style.gridTemplateColumns = `repeat(${size}, 50px)`;
 
     board = Array.from({ length: size }, () => Array(size).fill(0));
+    queensLeft = size;
+    updateQueensLeft();
 
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             const cell = document.createElement('div');
-            cell.className = `cell ${(i + j) % 2 === 0 ? 'gray' : 'black'}`;
-            cell.addEventListener('click', () => {
-                toggleQueen(i, j);
-                markSafe();
-            });
+            cell.className = `cell ${(i + j) % 2 === 0 ? 'light' : 'dark'}`;
+            cell.addEventListener('click', () => toggleQueen(i, j));
             boardElement.appendChild(cell);
         }
     }
@@ -28,9 +29,20 @@ function updateBoardSize(value) {
 }
 
 function toggleQueen(row, col) {
-    board[row][col] = 1 - board[row][col];  // Toggle the queen on or off
+    if (board[row][col] === 0 && queensLeft > 0) {
+        board[row][col] = 1;
+        queensLeft--;
+    } else if (board[row][col] === 1) {
+        board[row][col] = 0;
+        queensLeft++;
+    }
+    updateQueensLeft();
     drawBoard();
-    markSafe();
+    highlightUnsafeQueens();
+}
+
+function updateQueensLeft() {
+    document.getElementById('queensLeft').textContent = queensLeft;
 }
 
 function drawBoard() {
@@ -38,45 +50,46 @@ function drawBoard() {
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < N; j++) {
             const cell = boardElement.children[i * N + j];
-            cell.innerHTML = board[i][j] === 1 ? (i + j) % 2 === 0 ? '<img src="assets/images/queenBlack.png" height="30px" />' : '<img src="assets/images/queenWhite.png" height="30px" />' : '';
-            cell.style.backgroundColor = (i + j) % 2 === 0 ? '#DEE4EA' : '#101214';
+            cell.innerHTML = board[i][j] === 1 ? '♛' : '';
+            cell.className = `cell ${(i + j) % 2 === 0 ? 'light' : 'dark'}`;
+            cell.style.color = 'black';
         }
     }
 }
 
-function isSafe(row, col) {
-    for (let i = 0; i < N; i++) {
-        if (board[row][i] === 1 || board[i][col] === 1) return false;
-    }
-
-    for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-        if (board[i][j] === 1) return false;
-    }
-
-    for (let i = row, j = col; i < N && j >= 0; i++, j--) {
-        if (board[i][j] === 1) return false;
-    }
-
-    for (let i = row, j = col; i >= 0 && j < N; i--, j++) {
-        if (board[i][j] === 1) return false;
-    }
-
-    for (let i = row, j = col; i < N && j < N; i++, j++) {
-        if (board[i][j] === 1) return false;
-    }
-
-    return true;
-}
-
-function markSafe() {
+function highlightUnsafeQueens() {
     const boardElement = document.getElementById('board');
+    const unsafePositions = new Set();
+
+    // Find unsafe positions
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
+            if (board[i][j] === 1) {
+                // Check row and column
+                for (let k = 0; k < N; k++) {
+                    if (k !== j) unsafePositions.add(`${i},${k}`);
+                    if (k !== i) unsafePositions.add(`${k},${j}`);
+                }
+
+                // Check diagonals
+                for (let k = 1; k < N; k++) {
+                    if (i + k < N && j + k < N) unsafePositions.add(`${i+k},${j+k}`);
+                    if (i + k < N && j - k >= 0) unsafePositions.add(`${i+k},${j-k}`);
+                    if (i - k >= 0 && j + k < N) unsafePositions.add(`${i-k},${j+k}`);
+                    if (i - k >= 0 && j - k >= 0) unsafePositions.add(`${i-k},${j-k}`);
+                }
+            }
+        }
+    }
+
+    // Highlight unsafe queens
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < N; j++) {
             const cell = boardElement.children[i * N + j];
-            if (isSafe(i, j) || board[i][j]===1) {
-                cell.style.backgroundColor = (i + j) % 2 === 0 ? '#DEE4EA' : '#101214';
+            if (board[i][j] === 1 && unsafePositions.has(`${i},${j}`)) {
+                cell.classList.add('unsafe');
             } else {
-                cell.style.backgroundColor = (i + j) % 2 === 0 ? '#E9967A' : '#A52A2A';
+                cell.classList.remove('unsafe');
             }
         }
     }
@@ -96,10 +109,29 @@ function solveNQUtil(col) {
     return false;
 }
 
+function isSafe(row, col) {
+    for (let i = 0; i < N; i++) {
+        if (board[row][i] === 1 || board[i][col] === 1) return false;
+    }
+
+    for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+        if (board[i][j] === 1) return false;
+    }
+
+    for (let i = row, j = col; i < N && j >= 0; i++, j--) {
+        if (board[i][j] === 1) return false;
+    }
+
+    return true;
+}
+
 function solve() {
-    createBoard(N)
+    createBoard(N);
     if (solveNQUtil(0)) {
         drawBoard();
+        queensLeft = 0;
+        updateQueensLeft();
+        highlightUnsafeQueens(); // This will actually do nothing for a solved board
     } else {
         alert("Solution does not exist");
     }
@@ -109,6 +141,13 @@ function resetBoard() {
     createBoard(N);
 }
 
+function toggleTheme() {
+    isDarkTheme = !isDarkTheme;
+    document.body.classList.toggle('dark-theme', isDarkTheme);
+}
+
 window.onload = function() {
     createBoard(N);
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.body.classList.add('dark-theme');
 };
