@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NQueen Solver</title>
+    <link rel="icon" type="image/x-icon" href="image/nqueens.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <a href="index.html"><img src="image/nqueen.png" alt="Logo"></a>
+                <h2>NQUEEN SOLVER</h2>
+            </div>
+            <nav>
+                <a href="#solver">Solver</a>
+                <a href="#know-more">Know more</a>
+                <a href="#developer">Developer</a>
+            </nav>
+        </header>
+
+        <main>
+            <section id="solver">
+            <div class="game-section">
+                <div id="board"></div>
+                <div class="controls">
+                    <div class="slider">
+                        <label for="boardSize"><b>Size: <span id="boardSizeValue">8</span></b></label>
+                        <input type="range" id="boardSize" min="4" max="12" value="8" oninput="updateBoardSize(this.value)">
+                        <div><b>Queens left: <span id="queensLeft">8</span></b></div>
+                    </div>
+                    
+                </div>
+                <div class="buttons">
+                    <button id="themeToggle" style="align-items:center;">Theme</button>
+                    <button onclick="resetBoard()" style="justify-content: center; align-items:center;">Reset</button>
+                    <button onclick="solve()" style="justify-content: center; align-items:center;">Solve</button>
+                    <button id="undoBtn" style="justify-content: center; align-items:center;">Undo</button>
+                </div>
+            </div>
+            </section>
+
+            <section class="info-section">
+                <h1>The Challenge</h1>
+                <p>The goal is elegantly simple yet deceptively complex: 
+                    <b>place N chess queens on an N×N chessboard so that no two queens threaten each other.</b> 
+                    This challenge tests your strategic thinking and pattern recognition skills. 
+                    As the board size increases, the puzzle becomes exponentially more difficult. 
+                    For example, while an 8×8 board has 92 solutions, a 12×12 board has 14,200,000 solutions! 
+                </p>
+
+                <h2>How to Use</h2>
+                <p> 1. Adjust the board size using the slider.<br>
+                    2. Click on a cell to place or remove a queen.<br>
+                    3. Unsafe queen positions will be highlighted in red.<br>
+                    4. Click <b>Solve</b> to find a solution automatically.<br>
+                    5. Use <b>Reset</b> to clear the board.<br>
+                    6. Toggle between themes with the theme button.</p>
+            </section>
+        </main>
+
+        <section id="know-more">
+            <h2>About the Problem</h2>
+            <p>The N-Queen problem is a classic puzzle in computer science and mathematics. The challenge is to place N chess queens on an N×N chessboard so that no two queens threaten each other. In chess, a queen can attack any piece in the same row, column, or diagonal.</p>
+            <p>For a standard 8×8 chessboard, the goal is to place 8 queens safely. However, the problem can be generalized to any N×N board. As the board size increases, the number of possible arrangements grows exponentially, making it an excellent example of combinatorial complexity.</p>
+            <h2>How to Solve</h2>
+            <h3>Using Backtracking Algorithm</h3>
+            <div class="image-grid">
+                <div class="image-placeholder">
+                    <img src="image/1.png" alt="Logo" class="dark-mode-img">
+                    <img src="image/10.png" alt="Logo" class="light-mode-img">
+                </div>
+                <div class="image-placeholder">
+                    <img src="image/2.png" alt="Logo" class="dark-mode-img">
+                    <img src="image/20.png" alt="Logo" class="light-mode-img">
+                </div>
+                <div class="image-placeholder">
+                    <img src="image/3.png" alt="Logo" class="dark-mode-img">
+                    <img src="image/30.png" alt="Logo" class="light-mode-img">
+                </div>
+                <div class="image-placeholder">
+                    <img src="image/4.png" alt="Logo" class="dark-mode-img">
+                    <img src="image/40.png" alt="Logo" class="light-mode-img">
+                </div>
+            </div>
+            <p>Backtracking is an algorithmic technique for solving problems recursively by trying to build a solution incrementally, one piece at a time. If at any point it determines that the current solution cannot be completed, it "backtracks" to the previous step and tries a different path.</p>
+
+            <ol>
+                <li><strong>Start:</strong> Begin with an empty board.</li>
+                <li><strong>Place:</strong> Try placing a queen in the first available position in the current row.</li>
+                <li><strong>Check:</strong> If the placement is safe (no conflicts with other queens), move to the next row.</li>
+                <li><strong>Recurse:</strong> Repeat steps 2-3 for the next row.</li>
+                <li><strong>Backtrack:</strong> If a safe position can't be found, or if we've placed all queens successfully, backtrack to the previous row and try the next position.</li>
+                <li><strong>Repeat:</strong> Continue this process until a solution is found or all possibilities are exhausted.</li>
+            </ol>
+            <h2>Why N-Queen Matters</h2>
+            <p>The N-Queen problem is more than just a puzzle:</p>
+            <ul>
+                <li><strong>Algorithm Design:</strong> It's an excellent example for teaching recursive problem-solving and backtracking.</li>
+                <li><strong>Optimization:</strong> Solving N-Queen efficiently requires optimizing the algorithm, making it a benchmark for algorithm performance.</li>
+                <li><strong>Real-world Applications:</strong> The principles used in solving N-Queen apply to various real-world problems, including resource allocation, scheduling, and constraint satisfaction problems.</li>
+            </ul>
+            <h2>Complexity and Challenges</h2>
+            <p>For an N×N board, there are N^N possible arrangements of queens.
+                However, only a tiny fraction of these are solutions.
+                As N increases, the problem becomes exponentially more difficult.
+                The largest known solution has been found for N=27, requiring significant computational power.</p>
+
+        </section>
+
+        <div id="developer" class="section">
+            <div class="developer-info">
+                <div class="developer-image-container">
+                    <img src="image/portrait.jpg" alt="Developer's portrait" class="developer-image">
+                </div>
+                <div class="developer-details">
+                    <h2>About the Developer</h2>
+                    <p>Hi, I'm Raunak, a passionate developer with a deep interest in algorithms and problem-solving. My journey with the N-Queens problem started in primary school when my cousin challenged me to place 8 queens on a chessboard without them threatening each other. That early fascination grew as I advanced in computer science, where I discovered the backtracking algorithm, which finally provided the solution to the puzzle that had intrigued me for years. This N-Queens Solver project is the result of that fascination, showcasing the elegance of backtracking and the complexity of combinatorial problems.</p>
+                    <p>Beyond this project, I focus on developing software and web applications that solve complex problems. My skills range from algorithm design to UI/UX interfaces, and I particularly enjoy projects that combine logical challenges with visual elements, much like the N-Queens Solver. For more such projects, feel free to explore my website and GitHub.</p>
+                    <h3 class="developer-name">Raunak Mandil</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/raunnieo/nqueen-visualizer" class="social-icon fa-github"><i class="fab fa-github"></i></a>
+                        <a href="https://raunnieo.vercel.app/" class="social-icon fa-globe"><i class="fas fa-globe"></i></a>
+                        <a href="https://www.linkedin.com/in/raunakmandil" class="social-icon fa-linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/theraagee/" class="social-icon fa-instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Raunnieo . All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
