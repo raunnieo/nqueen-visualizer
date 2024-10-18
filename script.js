@@ -35,11 +35,15 @@ function updateBoardSize(value) {
 function updateQueenFontSize(boardSize) {
     const minSize = 3;
     const maxSize = 12;
-    const minFontSize = 1.7;
-    const maxFontSize = 3;
+    const isMobile = window.innerWidth <= 768;
+    const minFontSize = isMobile ? 1.3 : 1.7;
+    const maxFontSize = isMobile ? 2.3 : 3;
     
     const fontSize = maxFontSize - (boardSize - minSize) * (maxFontSize - minFontSize) / (maxSize - minSize);
-    document.documentElement.style.setProperty('--queen-font-size', `${fontSize}em`);
+    document.documentElement.style.setProperty(
+        isMobile ? '--queen-font-size-mobile' : '--queen-font-size',
+        `${fontSize}em`
+    );
 }
 
 function toggleQueen(row, col) {
@@ -183,4 +187,5 @@ window.onload = function() {
     document.body.classList.toggle('dark-theme', isDarkTheme);
     document.getElementById('undoBtn').addEventListener('click', undo);
     document.body.classList.toggle('dark-theme', isDarkTheme);
+    
 };
